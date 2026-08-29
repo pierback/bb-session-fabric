@@ -1,18 +1,18 @@
-import type { BbPluginApi } from "@bb/plugin-sdk";
+import type { BbPluginApi } from "@get-bb/plugin-sdk";
 
 import { registerSessionFabricCli } from "./cli.js";
 import { projectConnection } from "./connection-view.js";
 import { sessionFabricRpcContract } from "./contract.js";
 
-export const SESSION_FABRIC_PLUGIN_VERSION = "0.1.0";
+export const SESSION_FABRIC_PLUGIN_VERSION = "0.2.0";
 
 function requireSessionFabricCapability(bb: BbPluginApi): void {
-  const sdk = bb.sdk as BbPluginApi["sdk"] & {
-    sessionFabric?: BbPluginApi["sdk"]["sessionFabric"];
-  };
-  if (sdk.sessionFabric === undefined) {
+  const sdk: {
+    experimental_sessionFabric?: BbPluginApi["sdk"]["experimental_sessionFabric"];
+  } = bb.sdk;
+  if (sdk.experimental_sessionFabric === undefined) {
     throw new Error(
-      "Session Fabric requires a Pierback BB build with bb.sdk.sessionFabric",
+      "Session Fabric requires BB Mesh 0.40 with bb.sdk.experimental_sessionFabric",
     );
   }
 }
@@ -32,7 +32,9 @@ export default async function plugin(bb: BbPluginApi) {
 
   bb.rpc.register(sessionFabricRpcContract, {
     async threadConnection({ threadId }) {
-      const result = await bb.sdk.sessionFabric.threadConnection({ threadId });
+      const result = await bb.sdk.experimental_sessionFabric.threadConnection({
+        threadId,
+      });
       return {
         connection:
           result.connection === null
@@ -41,7 +43,9 @@ export default async function plugin(bb: BbPluginApi) {
       };
     },
     async connectThread({ threadId }) {
-      const result = await bb.sdk.sessionFabric.connectThread({ threadId });
+      const result = await bb.sdk.experimental_sessionFabric.connectThread({
+        threadId,
+      });
       return { connection: projectConnection(result.connection) };
     },
   });

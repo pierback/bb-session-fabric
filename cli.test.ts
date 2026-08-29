@@ -3,8 +3,8 @@ import type {
   BbPluginApi,
   PluginCliContext,
   PluginCliRegistration,
-} from "@bb/plugin-sdk";
-import { PLUGIN_CLI_OUTPUT_MAX_BYTES } from "@bb/plugin-sdk";
+} from "@get-bb/plugin-sdk";
+import { PLUGIN_CLI_OUTPUT_MAX_BYTES } from "@get-bb/plugin-sdk";
 
 import { registerSessionFabricCli } from "./cli.js";
 import { createSessionFabricSdk } from "./test-support/fixtures.js";
@@ -14,7 +14,7 @@ function registeredCli(
 ): PluginCliRegistration {
   let registration: PluginCliRegistration | undefined;
   registerSessionFabricCli({
-    sdk: { sessionFabric } as BbPluginApi["sdk"],
+    sdk: { experimental_sessionFabric: sessionFabric } as BbPluginApi["sdk"],
     onDispose() {},
     cli: {
       register(value) {

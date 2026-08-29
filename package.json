@@ -1,6 +1,6 @@
 {
   "name": "bb-plugin-session-fabric",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Inspect and operate BB portable provider sessions from a thread panel and CLI.",
   "license": "MIT",
   "homepage": "https://github.com/pierback/bb-session-fabric#readme",
@@ -29,8 +29,8 @@
   ],
   "engines": {
     "node": ">=22.19.0",
-    "bb": ">=0.36 <0.37",
-    "bbPluginSdk": "^0.4.1"
+    "bb": ">=0.40 <0.41",
+    "bbPluginSdk": "^0.4.21"
   },
   "bb": {
     "name": "Session Fabric",

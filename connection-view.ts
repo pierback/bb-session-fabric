@@ -1,9 +1,11 @@
-import type { BbPluginApi } from "@bb/plugin-sdk";
+import type { BbPluginApi } from "@get-bb/plugin-sdk";
 
 import type { SessionFabricConnectionView } from "./contract.js";
 
 type ThreadConnectionResult = Awaited<
-  ReturnType<BbPluginApi["sdk"]["sessionFabric"]["threadConnection"]>
+  ReturnType<
+    BbPluginApi["sdk"]["experimental_sessionFabric"]["threadConnection"]
+  >
 >;
 type CoreConnection = NonNullable<ThreadConnectionResult["connection"]>;
 

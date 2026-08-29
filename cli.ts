@@ -2,7 +2,7 @@ import type {
   BbPluginApi,
   PluginCliContext,
   PluginCliResult,
-} from "@bb/plugin-sdk";
+} from "@get-bb/plugin-sdk";
 
 import { formatConnection, projectConnection } from "./connection-view.js";
 import {
@@ -22,7 +22,7 @@ const CLI_USAGE = `Usage:
 const FULL_AUDIT_PAGE_BYTES = 256 * 1024;
 
 type HandoffAudit = Awaited<
-  ReturnType<BbPluginApi["sdk"]["sessionFabric"]["handoffAudit"]>
+  ReturnType<BbPluginApi["sdk"]["experimental_sessionFabric"]["handoffAudit"]>
 >;
 
 interface ParsedCliArgs {
@@ -178,7 +178,7 @@ function displayToken(value: string): string {
 
 function formatCommandAudit(
   audit: Awaited<
-    ReturnType<BbPluginApi["sdk"]["sessionFabric"]["commandAudit"]>
+    ReturnType<BbPluginApi["sdk"]["experimental_sessionFabric"]["commandAudit"]>
   >,
 ): string {
   return [
@@ -194,7 +194,7 @@ function formatCommandAudit(
 
 function formatHandoffAudit(
   audit: Awaited<
-    ReturnType<BbPluginApi["sdk"]["sessionFabric"]["handoffAudit"]>
+    ReturnType<BbPluginApi["sdk"]["experimental_sessionFabric"]["handoffAudit"]>
   >,
 ): string {
   const evidence = [
@@ -254,9 +254,10 @@ export function registerSessionFabricCli(
         const parsed = parseCliArgs(argv);
         if (parsed.command === "status") {
           const threadId = requireThreadId(parsed.positionals, context);
-          const result = await bb.sdk.sessionFabric.threadConnection(
-            withSignal({ threadId }, context.signal),
-          );
+          const result =
+            await bb.sdk.experimental_sessionFabric.threadConnection(
+              withSignal({ threadId }, context.signal),
+            );
           const view = {
             connection:
               result.connection === null
@@ -272,7 +273,7 @@ export function registerSessionFabricCli(
         }
         if (parsed.command === "connect") {
           const threadId = requireThreadId(parsed.positionals, context);
-          const result = await bb.sdk.sessionFabric.connectThread(
+          const result = await bb.sdk.experimental_sessionFabric.connectThread(
             withSignal({ threadId }, context.signal),
           );
           const view = { connection: projectConnection(result.connection) };
@@ -285,7 +286,7 @@ export function registerSessionFabricCli(
         }
         if (parsed.command === "command") {
           const commandId = requireIdentifier(parsed.positionals, "command id");
-          const audit = await bb.sdk.sessionFabric.commandAudit(
+          const audit = await bb.sdk.experimental_sessionFabric.commandAudit(
             withSignal({ commandId }, context.signal),
           );
           return {
@@ -308,7 +309,7 @@ export function registerSessionFabricCli(
               parsed.snapshot === null
                 ? handoffAuditSnapshots.create(
                     transitionId,
-                    await bb.sdk.sessionFabric.handoffAudit(
+                    await bb.sdk.experimental_sessionFabric.handoffAudit(
                       withSignal({ transitionId }, context.signal),
                     ),
                   )
@@ -318,7 +319,7 @@ export function registerSessionFabricCli(
               stdout: pageHandoffAudit(snapshot, parsed.page),
             };
           }
-          const audit = await bb.sdk.sessionFabric.handoffAudit(
+          const audit = await bb.sdk.experimental_sessionFabric.handoffAudit(
             withSignal({ transitionId }, context.signal),
           );
           return {
