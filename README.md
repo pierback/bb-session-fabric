@@ -1,18 +1,20 @@
 # Session Fabric for BB
 
 Session Fabric is the optional application layer for inspecting and operating
-portable provider sessions in [Pierback BB](https://github.com/pierback/bb).
+portable provider sessions in [BB Mesh](https://github.com/pierback/bb).
 It contributes a thread panel, operator settings, and the `bb fabric` command.
 
 ## Requirements
 
-- Pierback BB `0.36.x` containing the public `bb.sdk.sessionFabric` capability
-  (core commit `1729682a3` or newer).
-- BB Plugin SDK `0.4.x`.
+- BB Mesh `0.40.x` containing the public
+  `bb.sdk.experimental_sessionFabric` capability.
+- BB Plugin SDK `^0.4.21` plus that BB Mesh-only runtime capability.
 - Node.js 22.19 or newer when installing from Git.
 
 The plugin deliberately has no fallback for upstream BB builds that do not
-provide Session Fabric. Runtime authority belongs to the compatible BB core.
+provide Session Fabric. Activation stops with a clear compatibility error if
+the runtime capability is absent. Runtime authority belongs to the compatible
+BB core.
 
 ## Install
 
@@ -67,15 +69,15 @@ same SDK declarations checked into this repository, then produces
 when an upstream or stale CLI is selected. Managed Git installations perform
 the build with the target BB server's own toolchain.
 
-The `types/` declarations are copied from the compatible Pierback BB SDK so
+The `types/` declarations are copied from the compatible BB Mesh SDK so
 the repository typechecks independently. Refresh them after a core SDK change:
 
 ```bash
 bb plugin types
 ```
 
-Run that command with the Pierback BB executable, not an upstream build that
-lacks `bb.sdk.sessionFabric`.
+Run that command with the BB Mesh executable, not an upstream build that
+lacks `bb.sdk.experimental_sessionFabric`.
 
 ## Architectural boundary
 
@@ -89,6 +91,6 @@ orchestration. It does **not** own:
 - the canonical project execution-location badge.
 
 Those are bootstrap and trust primitives in BB core. This plugin consumes only
-the public `bb.sdk.sessionFabric` contract, owns its RPC projection, vendors its
+the public `bb.sdk.experimental_sessionFabric` contract, owns its RPC projection, vendors its
 UI primitives, and does not import BB server, daemon, database, or private
 `/internal` implementations.

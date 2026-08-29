@@ -8,11 +8,11 @@ export default defineConfig({
   resolve: {
     alias: [
       {
-        find: "@bb/plugin-sdk/app",
+        find: "@get-bb/plugin-sdk/app",
         replacement: resolveLocal("./test-support/plugin-sdk-app.tsx"),
       },
       {
-        find: "@bb/plugin-sdk",
+        find: "@get-bb/plugin-sdk",
         replacement: resolveLocal("./test-support/plugin-sdk.ts"),
       },
     ],

@@ -1,4 +1,4 @@
-import type { BbPluginApi } from "@bb/plugin-sdk";
+import type { BbPluginApi } from "@get-bb/plugin-sdk";
 
 import type { SessionFabricConnectionView } from "../contract.js";
 
@@ -31,7 +31,7 @@ export const connection: SessionFabricConnectionView = {
   updatedAt: 1_786_000_000_000,
 };
 
-export function createSessionFabricSdk(): BbPluginApi["sdk"]["sessionFabric"] {
+export function createSessionFabricSdk(): BbPluginApi["sdk"]["experimental_sessionFabric"] {
   const sdk = {
     async threadConnection({ threadId }) {
       return {
@@ -72,6 +72,6 @@ export function createSessionFabricSdk(): BbPluginApi["sdk"]["sessionFabric"] {
         settlement: { id: "settlement-1" },
       } as never;
     },
-  } satisfies Partial<BbPluginApi["sdk"]["sessionFabric"]>;
-  return sdk as unknown as BbPluginApi["sdk"]["sessionFabric"];
+  } satisfies Partial<BbPluginApi["sdk"]["experimental_sessionFabric"]>;
+  return sdk as unknown as BbPluginApi["sdk"]["experimental_sessionFabric"];
 }

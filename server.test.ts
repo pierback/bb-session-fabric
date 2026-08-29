@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { BbPluginApi, PluginCliRegistration } from "@bb/plugin-sdk";
+import type { BbPluginApi, PluginCliRegistration } from "@get-bb/plugin-sdk";
 
 import plugin, { SESSION_FABRIC_PLUGIN_VERSION } from "./server.js";
 import { connection, createSessionFabricSdk } from "./test-support/fixtures.js";
@@ -20,7 +20,7 @@ function createHost(): CapturedHost {
   const settings: unknown[] = [];
   const disposeHooks: Array<() => void | Promise<void>> = [];
   const bb = {
-    sdk: { sessionFabric: createSessionFabricSdk() },
+    sdk: { experimental_sessionFabric: createSessionFabricSdk() },
     settings: {
       define(value: unknown) {
         settings.push(value);
@@ -86,7 +86,7 @@ describe("Session Fabric plugin", () => {
     } as unknown as BbPluginApi;
 
     await expect(plugin(incompatible)).rejects.toThrow(
-      "requires a Pierback BB build with bb.sdk.sessionFabric",
+      "requires BB Mesh 0.40 with bb.sdk.experimental_sessionFabric",
     );
   });
 });

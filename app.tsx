@@ -4,7 +4,7 @@ import {
   useRpc,
   useSettings,
   type PluginThreadPanelProps,
-} from "@bb/plugin-sdk/app";
+} from "@get-bb/plugin-sdk/app";
 
 import { Button } from "./components/ui/button.js";
 import { Skeleton } from "./components/ui/skeleton.js";
